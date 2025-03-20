@@ -549,3 +549,55 @@ window.addEventListener("DOMContentLoaded", function () {
   // Run other initialization code
   adjustSidebarHeight();
 });
+
+// Skills Section Animation
+function initSkillsAnimation() {
+  const skillsItems = document.querySelectorAll(".skills-item");
+  const skillsProgressBars = document.querySelectorAll(".skills-progress-fill");
+
+  // Create intersection observer for skills section
+  const skillsObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          // Animate each skill item with a delay
+          skillsItems.forEach((item, index) => {
+            setTimeout(() => {
+              item.classList.add("animate");
+
+              // Get the percentage from the data attribute
+              const percentage = item
+                .querySelector(".title-wrapper data")
+                .getAttribute("value");
+              const progressBar = item.querySelector(".skills-progress-fill");
+
+              // Animate the progress bar
+              setTimeout(() => {
+                progressBar.style.width = `${percentage}%`;
+              }, 300);
+            }, index * 200); // Stagger the animations
+          });
+
+          // Unobserve after animation starts
+          skillsObserver.unobserve(entry.target);
+        }
+      });
+    },
+    {
+      threshold: 0.2,
+      rootMargin: "0px",
+    }
+  );
+
+  // Observe the skills section
+  const skillsSection = document.querySelector(".skill");
+  if (skillsSection) {
+    skillsObserver.observe(skillsSection);
+  }
+}
+
+// Initialize skills animation when the page loads
+window.addEventListener("DOMContentLoaded", function () {
+  // ... existing initialization code ...
+  initSkillsAnimation();
+});
