@@ -1,5 +1,24 @@
 "use strict";
 
+/*
+ * ================================================================
+ * DIGITAL FINGERPRINT
+ * ================================================================
+ * Website: Vishvadeep Singh Chauhan's Portfolio
+ * Author: Vishvadeep Singh Chauhan
+ * Contact: vishvadeep2024@gmail.com
+ * Copyright © 2024 Vishvadeep Singh Chauhan. All rights reserved.
+ *
+ * This website, including its code, design, assets, and content,
+ * is the exclusive property of Vishvadeep Singh Chauhan.
+ * Unauthorized reproduction, distribution, or use of this website
+ * or any part of it is strictly prohibited and will be prosecuted
+ * to the fullest extent of the law.
+ *
+ * Unique Fingerprint ID: VSC-PORTFOLIO-2025-8865966009
+ * ================================================================
+ */
+
 //Opening or closing side bar
 
 const sidebar = document.querySelector("[data-sidebar]");
