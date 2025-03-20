@@ -329,3 +329,223 @@ if (
     mouseY = touch.clientY;
   });
 }
+
+// Water Bubble Splash Animation
+function createWaterSplash() {
+  const splashContainer = document.querySelector(".water-splash-container");
+  const mainBubble = document.querySelector(".water-bubble");
+
+  // Add ripple effect to main bubble
+  function addRippleEffect() {
+    for (let i = 0; i < 3; i++) {
+      const ripple = document.createElement("div");
+      ripple.style.position = "absolute";
+      ripple.style.top = "50%";
+      ripple.style.left = "50%";
+      ripple.style.transform = "translate(-50%, -50%)";
+      ripple.style.width = "10px";
+      ripple.style.height = "10px";
+      ripple.style.borderRadius = "50%";
+      ripple.style.background = "transparent";
+      ripple.style.border = "2px solid rgba(250, 217, 97, 0.5)";
+      ripple.style.boxShadow = "0 0 10px rgba(250, 217, 97, 0.3)";
+      ripple.style.zIndex = "999";
+
+      // Set animation with staggered delays
+      const delay = i * 0.3;
+      ripple.style.animation = `rippleEffect 2s cubic-bezier(0.215, 0.610, 0.355, 1.000) ${delay}s`;
+
+      splashContainer.appendChild(ripple);
+    }
+  }
+
+  // Add ripple effect keyframe to document
+  const styleSheet = document.createElement("style");
+  styleSheet.textContent = `
+    @keyframes rippleEffect {
+      0% {
+        width: 10px;
+        height: 10px;
+        opacity: 1;
+        border-width: 2px;
+      }
+      100% {
+        width: 300px;
+        height: 300px;
+        opacity: 0;
+        border-width: 1px;
+      }
+    }
+  `;
+  document.head.appendChild(styleSheet);
+
+  // Create splash droplets
+  function createDroplets() {
+    // Increase number of droplets for more dramatic effect
+    const dropletCount = 40;
+
+    for (let i = 0; i < dropletCount; i++) {
+      const droplet = document.createElement("div");
+      droplet.classList.add("splash-droplet");
+
+      // Random size between 5px and 60px
+      const size = 5 + Math.random() * 55;
+      droplet.style.width = `${size}px`;
+      droplet.style.height = `${size}px`;
+
+      // Position droplets in the center initially
+      droplet.style.top = "50%";
+      droplet.style.left = "50%";
+
+      // Random direction and distance
+      const angle = Math.random() * Math.PI * 2; // Random angle in radians
+      const distance = 30 + Math.random() * 100; // Increase max distance
+      const tx = Math.cos(angle) * distance;
+      const ty = Math.sin(angle) * distance;
+
+      // Random scale for animation
+      const scale = 0.5 + Math.random() * 2;
+
+      // Random animation duration between 1.2s and 3s
+      const duration = 1.2 + Math.random() * 1.8;
+
+      // Randomized delay for more natural effect
+      const delay = 0.3 + Math.random() * 0.8;
+
+      // Add slight rotation
+      const rotation = -20 + Math.random() * 40;
+
+      // Set CSS variables for the animation
+      droplet.style.setProperty("--tx", `${tx}vw`);
+      droplet.style.setProperty("--ty", `${ty}vh`);
+      droplet.style.setProperty("--scale", scale);
+      droplet.style.setProperty("--rotation", `${rotation}deg`);
+
+      // Set animation properties
+      droplet.style.animation = `dropletSplash ${duration}s ease-out ${delay}s forwards`;
+
+      // Add to container
+      splashContainer.appendChild(droplet);
+    }
+  }
+
+  // Add ripple effect
+  addRippleEffect();
+
+  // Create the droplets after a short delay
+  setTimeout(createDroplets, 300);
+
+  // Add subtle page shake effect when bubble bursts
+  setTimeout(() => {
+    document.body.style.animation =
+      "shakeEffect 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both";
+
+    // Add shake animation keyframes
+    const shakeStyle = document.createElement("style");
+    shakeStyle.textContent = `
+      @keyframes shakeEffect {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
+        20%, 40%, 60%, 80% { transform: translateX(2px); }
+      }
+    `;
+    document.head.appendChild(shakeStyle);
+
+    // Remove animation after it completes
+    setTimeout(() => {
+      document.body.style.animation = "";
+    }, 500);
+  }, 600); // Timed to match when bubble starts to grow rapidly
+
+  // Remove the splash container after animation completes
+  setTimeout(() => {
+    splashContainer.style.display = "none";
+  }, 3500);
+}
+
+// Add cursor bubble trail effect
+function initCursorBubbleTrail() {
+  const cursorBubbleContainer = document.createElement("div");
+  cursorBubbleContainer.classList.add("cursor-bubble-container");
+  cursorBubbleContainer.style.position = "fixed";
+  cursorBubbleContainer.style.top = "0";
+  cursorBubbleContainer.style.left = "0";
+  cursorBubbleContainer.style.width = "100%";
+  cursorBubbleContainer.style.height = "100%";
+  cursorBubbleContainer.style.pointerEvents = "none";
+  cursorBubbleContainer.style.zIndex = "9998";
+  cursorBubbleContainer.style.overflow = "hidden";
+  document.body.appendChild(cursorBubbleContainer);
+
+  // Create bubble trail style
+  const bubbleStyle = document.createElement("style");
+  bubbleStyle.textContent = `
+    .cursor-bubble {
+      position: absolute;
+      background: radial-gradient(
+        circle at center,
+        rgba(250, 217, 97, 0.8) 0%,
+        rgba(250, 217, 97, 0.5) 40%,
+        rgba(250, 217, 97, 0) 80%
+      );
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      animation: bubbleFloat 1.5s ease-out forwards;
+    }
+    @keyframes bubbleFloat {
+      0% {
+        opacity: 0.7;
+        transform: translate(-50%, -50%) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) translate(0, -50px) scale(1.5);
+      }
+    }
+  `;
+  document.head.appendChild(bubbleStyle);
+
+  // Create bubbles on mouse move
+  let lastBubbleTime = 0;
+  document.addEventListener("mousemove", (e) => {
+    const currentTime = Date.now();
+
+    // Limit bubble creation to every 150ms to avoid too many bubbles
+    if (currentTime - lastBubbleTime > 150) {
+      lastBubbleTime = currentTime;
+
+      // Create bubble
+      const bubble = document.createElement("div");
+      bubble.classList.add("cursor-bubble");
+
+      // Random size between 5px and 15px
+      const size = 5 + Math.random() * 10;
+      bubble.style.width = `${size}px`;
+      bubble.style.height = `${size}px`;
+
+      // Position at cursor
+      bubble.style.left = `${e.clientX}px`;
+      bubble.style.top = `${e.clientY}px`;
+
+      // Append to container
+      cursorBubbleContainer.appendChild(bubble);
+
+      // Remove bubble after animation completes
+      setTimeout(() => {
+        if (bubble && bubble.parentNode) {
+          bubble.parentNode.removeChild(bubble);
+        }
+      }, 1500);
+    }
+  });
+}
+
+// Run the water splash animation and initialize cursor bubbles when the page loads
+window.addEventListener("DOMContentLoaded", function () {
+  createWaterSplash();
+  initCursorBubbleTrail();
+
+  // Run other initialization code
+  adjustSidebarHeight();
+});
