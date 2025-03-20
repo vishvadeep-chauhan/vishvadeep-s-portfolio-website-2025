@@ -151,3 +151,162 @@ for (let i = 0; i < navigationLinks.length; i++) {
     }
   });
 }
+
+// Custom Cursor Implementation
+const customCursor = document.querySelector(".custom-cursor");
+const cursorDot = document.querySelector(".cursor-dot");
+const body = document.body;
+
+// Enable custom cursor for all devices
+// Add cursor-active class to body
+body.classList.add("custom-cursor-active");
+
+// Position cursor on mouse move with requestAnimationFrame for better performance
+let mouseX = 0;
+let mouseY = 0;
+let cursorX = 0;
+let cursorY = 0;
+const cursorSpeed = 0.2; // Controls how quickly the main cursor follows the mouse
+
+// Function to adjust cursor size based on screen width
+function adjustCursorSize() {
+  const screenWidth = window.innerWidth;
+
+  if (screenWidth <= 480) {
+    // Small screens
+    customCursor.style.width = "12px";
+    customCursor.style.height = "12px";
+    cursorDot.style.width = "2px";
+    cursorDot.style.height = "2px";
+  } else if (screenWidth <= 768) {
+    // Medium screens
+    customCursor.style.width = "15px";
+    customCursor.style.height = "15px";
+    cursorDot.style.width = "3px";
+    cursorDot.style.height = "3px";
+  } else {
+    // Large screens
+    customCursor.style.width = "20px";
+    customCursor.style.height = "20px";
+    cursorDot.style.width = "5px";
+    cursorDot.style.height = "5px";
+  }
+}
+
+// Initial size adjustment
+adjustCursorSize();
+
+// Adjust cursor size on window resize
+window.addEventListener("resize", adjustCursorSize);
+
+document.addEventListener("mousemove", (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+
+  // Small dot follows cursor exactly
+  cursorDot.style.top = `${mouseY}px`;
+  cursorDot.style.left = `${mouseX}px`;
+});
+
+// Smooth cursor movement with animation frame
+function updateCursor() {
+  // Calculate new position with smooth follow effect
+  cursorX += (mouseX - cursorX) * cursorSpeed;
+  cursorY += (mouseY - cursorY) * cursorSpeed;
+
+  // Apply position to the main cursor
+  customCursor.style.top = `${cursorY}px`;
+  customCursor.style.left = `${cursorX}px`;
+
+  requestAnimationFrame(updateCursor);
+}
+updateCursor();
+
+// Add hover effect for interactive elements
+const interactiveElements = document.querySelectorAll(
+  "a, button, .icon-box, .download-resume-btn, input, textarea"
+);
+
+interactiveElements.forEach((element) => {
+  element.addEventListener("mouseenter", () => {
+    const screenWidth = window.innerWidth;
+
+    if (screenWidth <= 480) {
+      customCursor.style.width = "25px";
+      customCursor.style.height = "25px";
+    } else if (screenWidth <= 768) {
+      customCursor.style.width = "30px";
+      customCursor.style.height = "30px";
+    } else {
+      customCursor.style.width = "40px";
+      customCursor.style.height = "40px";
+    }
+
+    customCursor.style.backgroundColor = "rgba(250, 217, 97, 0.4)";
+    cursorDot.style.transform = "translate(-50%, -50%) scale(2)";
+  });
+
+  element.addEventListener("mouseleave", () => {
+    adjustCursorSize(); // Reset to default size based on screen
+    customCursor.style.backgroundColor = "rgba(250, 217, 97, 0.7)";
+    cursorDot.style.transform = "translate(-50%, -50%) scale(1)";
+  });
+});
+
+// Hide cursor when it leaves the window
+document.addEventListener("mouseout", (e) => {
+  if (e.relatedTarget === null) {
+    customCursor.style.display = "none";
+    cursorDot.style.display = "none";
+  }
+});
+
+document.addEventListener("mouseover", () => {
+  customCursor.style.display = "block";
+  cursorDot.style.display = "block";
+});
+
+// Add subtle pulse animation on click
+document.addEventListener("mousedown", () => {
+  customCursor.style.transform = "translate(-50%, -50%) scale(0.8)";
+  cursorDot.style.transform = "translate(-50%, -50%) scale(0.8)";
+});
+
+document.addEventListener("mouseup", () => {
+  customCursor.style.transform = "translate(-50%, -50%) scale(1)";
+  cursorDot.style.transform = "translate(-50%, -50%) scale(1)";
+});
+
+// Special handling for touch devices
+if (
+  "ontouchstart" in window ||
+  navigator.maxTouchPoints > 0 ||
+  navigator.msMaxTouchPoints > 0
+) {
+  // Add touch event support
+  document.addEventListener("touchstart", (e) => {
+    const touch = e.touches[0];
+    mouseX = touch.clientX;
+    mouseY = touch.clientY;
+
+    // Show cursor briefly at touch point
+    customCursor.style.display = "block";
+    cursorDot.style.display = "block";
+
+    // Animate touch effect
+    customCursor.style.transform = "translate(-50%, -50%) scale(0.8)";
+    cursorDot.style.transform = "translate(-50%, -50%) scale(0.8)";
+
+    // Hide cursor after delay
+    setTimeout(() => {
+      customCursor.style.display = "none";
+      cursorDot.style.display = "none";
+    }, 1000);
+  });
+
+  document.addEventListener("touchmove", (e) => {
+    const touch = e.touches[0];
+    mouseX = touch.clientX;
+    mouseY = touch.clientY;
+  });
+}

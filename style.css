@@ -2145,3 +2145,119 @@ textarea.form-input::-webkit-realizer {
     font-size: 24px;
   }
 }
+
+/* Custom Cursor */
+.custom-cursor {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: rgba(250, 217, 97, 0.7);
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s, background-color 0.3s, transform 0.1s;
+  mix-blend-mode: difference;
+  box-shadow: 0 0 15px rgba(250, 217, 97, 0.5);
+  animation: cursorPulse 2s infinite alternate;
+}
+
+@keyframes cursorPulse {
+  0% {
+    box-shadow: 0 0 15px 2px rgba(250, 217, 97, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 20px 5px rgba(250, 217, 97, 0.7);
+  }
+}
+
+.cursor-dot {
+  position: fixed;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--orange-yellow-crayola);
+  pointer-events: none;
+  z-index: 10000;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease;
+}
+
+/* Hide default cursor when custom cursor is active */
+body.custom-cursor-active {
+  cursor: none !important;
+}
+
+body.custom-cursor-active a,
+body.custom-cursor-active button,
+body.custom-cursor-active .icon-box,
+body.custom-cursor-active .download-resume-btn,
+body.custom-cursor-active input,
+body.custom-cursor-active textarea {
+  cursor: none !important;
+}
+
+/* Hover effects for interactive elements */
+a:hover ~ .custom-cursor,
+button:hover ~ .custom-cursor,
+.icon-box:hover ~ .custom-cursor,
+.download-resume-btn:hover ~ .custom-cursor {
+  width: 40px;
+  height: 40px;
+  background-color: rgba(250, 217, 97, 0.4);
+  animation: cursorHoverPulse 1s infinite alternate;
+}
+
+@keyframes cursorHoverPulse {
+  0% {
+    box-shadow: 0 0 20px 5px rgba(250, 217, 97, 0.5);
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    box-shadow: 0 0 30px 10px rgba(250, 217, 97, 0.7);
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+}
+
+/* Responsive cursor size adjustments */
+@media (max-width: 768px) {
+  .custom-cursor {
+    width: 15px;
+    height: 15px;
+    box-shadow: 0 0 10px rgba(250, 217, 97, 0.5);
+  }
+
+  .cursor-dot {
+    width: 3px;
+    height: 3px;
+  }
+
+  a:hover ~ .custom-cursor,
+  button:hover ~ .custom-cursor,
+  .icon-box:hover ~ .custom-cursor,
+  .download-resume-btn:hover ~ .custom-cursor {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .custom-cursor {
+    width: 12px;
+    height: 12px;
+    box-shadow: 0 0 8px rgba(250, 217, 97, 0.5);
+  }
+
+  .cursor-dot {
+    width: 2px;
+    height: 2px;
+  }
+
+  a:hover ~ .custom-cursor,
+  button:hover ~ .custom-cursor,
+  .icon-box:hover ~ .custom-cursor,
+  .download-resume-btn:hover ~ .custom-cursor {
+    width: 25px;
+    height: 25px;
+  }
+}
