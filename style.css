@@ -570,7 +570,6 @@ article.active {
 
 .service-icon-box:hover {
   transform: translateY(-5px);
-  background: var(--bg-gradient-yellow1);
 }
 
 .service-icon-box:hover ion-icon {
