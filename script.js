@@ -11,6 +11,25 @@ sidebar.classList.add("active");
 // Hide the toggle button since we want contacts to be always visible
 sidebarBtn.style.display = "none";
 
+// Ensure sidebar has appropriate height for content
+function adjustSidebarHeight() {
+  if (window.innerWidth >= 1250) {
+    sidebar.style.height = "auto";
+    sidebar.style.maxHeight = "none";
+  }
+}
+
+// Run on page load
+window.addEventListener("DOMContentLoaded", adjustSidebarHeight);
+
+// Run on window resize
+window.addEventListener("resize", adjustSidebarHeight);
+
+// Function to toggle element classes
+const elementToggleFunc = function (elem) {
+  elem.classList.toggle("active");
+};
+
 //Activating Modal-testimonial
 
 const testimonialsItem = document.querySelectorAll("[data-testimonials-item]");

@@ -19,18 +19,21 @@
 </head>
 <body>
     <main>
-        <aside class="sidebar " data-sidebar>
+        <aside class="sidebar active" data-sidebar>
             <div class="sidebar-info">
                 <figure class="avatar-box">
                     <img src="https://i.postimg.cc/JzBWVhW4/my-avatar.png" alt="avatar" width="80">
                 </figure>
 
                 <div class="info-content">
-                    <h1 class="name" title="vishvadeep singh">Vishvadeep Singh <br> Chauhan</h1>
+                    <h1 class="name" title="vishvadeep singh">
+                        <span class="name-text">Vishvadeep Singh <br> Chauhan</span>
+                        <span class="name-underline"></span>
+                    </h1>
                     <p class="title">Web Developer</p>
                 </div>
 
-                <button class="info-more-btn" data-sidebar-btn>
+                <button class="info-more-btn" data-sidebar-btn style="display: none;">
                     <span>Show Contacts</span>
                     <ion-icon name="chevron-down"></ion-icon>
                 </button>
@@ -99,6 +102,11 @@
                     <li class="social-item"><a href="https://wa.me/918865966009" class="social-link"><ion-icon name="logo-whatsapp"></ion-icon></a></li>
                 </ul>
             </div>
+            
+            <a href="resume.pdf" download class="download-resume-btn" title="Download my full resume (PDF)">
+                <ion-icon name="download-outline"></ion-icon>
+                <span>Download Resume</span>
+            </a>
         </aside>
 
         <div class="main-content">

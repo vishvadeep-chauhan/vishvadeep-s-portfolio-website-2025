@@ -306,6 +306,10 @@ article.active {
   transition: var(--transition2);
 }
 
+.sidebar.active {
+  max-height: 405px;
+}
+
 .sidebar-info {
   position: relative;
   display: flex;
@@ -325,6 +329,74 @@ article.active {
   font-weight: var(--fw500);
   letter-spacing: -0.25px;
   margin-bottom: 10px;
+  position: relative;
+  display: inline-block;
+  background: linear-gradient(
+    to right,
+    var(--white2),
+    var(--orange-yellow-crayola) 50%,
+    var(--white2) 50%
+  );
+  background-size: 200% 100%;
+  background-position: 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textShine 4s ease-in-out infinite alternate,
+    letterSpacing 5s ease-in-out infinite alternate;
+}
+
+.name-text {
+  display: inline-block;
+}
+
+.name-underline {
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 2px;
+  background-color: var(--orange-yellow-crayola);
+  animation: lineExpand 3s ease-in-out infinite;
+}
+
+@keyframes lineExpand {
+  0% {
+    width: 0;
+    left: 0;
+  }
+  50% {
+    width: 100%;
+    left: 0;
+  }
+  75% {
+    width: 100%;
+    left: 0;
+  }
+  100% {
+    width: 0;
+    left: 100%;
+  }
+}
+
+@keyframes letterSpacing {
+  0% {
+    letter-spacing: -0.5px;
+  }
+  50% {
+    letter-spacing: 1px;
+  }
+  100% {
+    letter-spacing: -0.5px;
+  }
+}
+
+@keyframes textShine {
+  0% {
+    background-position: 100%;
+  }
+  100% {
+    background-position: 0%;
+  }
 }
 
 .info-content .title {
@@ -401,11 +473,14 @@ article.active {
 .contact-info {
   max-width: calc(100% - 46px);
   width: calc(100% - 46px);
+  overflow: hidden;
 }
 
 .contact-info :is(.contact-link, time, address) {
   color: var(--white2);
   font-size: var(--fs7);
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .contact-info address {
@@ -435,6 +510,107 @@ article.active {
 
 .social-item .social-link:hover {
   color: var(--light-gray);
+}
+
+/* Download Resume Button */
+.download-resume-btn {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  background: var(--orange-yellow-crayola);
+  color: var(--eerie-black1);
+  font-size: var(--fs7);
+  font-weight: var(--fw500);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 15px;
+  border-radius: 30px;
+  box-shadow: 0 0 10px 2px rgba(250, 217, 97, 0.3);
+  z-index: 10;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: glowing 2s infinite alternate;
+}
+
+@keyframes glowing {
+  0% {
+    box-shadow: 0 0 10px 2px rgba(250, 217, 97, 0.3);
+  }
+  100% {
+    box-shadow: 0 0 20px 6px rgba(250, 217, 97, 0.7);
+  }
+}
+
+.download-resume-btn ion-icon {
+  font-size: 20px;
+  animation: bounce 1s infinite alternate;
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-3px);
+  }
+}
+
+.download-resume-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  animation: intense-glow 1s infinite alternate;
+}
+
+@keyframes intense-glow {
+  0% {
+    box-shadow: 0 0 15px 4px rgba(250, 217, 97, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 25px 8px rgba(250, 217, 97, 0.9);
+  }
+}
+
+@media (min-width: 1250px) {
+  .download-resume-btn {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+  }
+
+  .info-content .name {
+    white-space: nowrap;
+    text-align: center;
+    position: relative;
+    overflow: visible;
+    border-right: none;
+    animation: textShine 4s ease-in-out infinite alternate,
+      letterSpacing 5s ease-in-out infinite alternate;
+    width: 100%;
+  }
+
+  .name-underline {
+    bottom: -5px;
+    height: 3px;
+  }
+}
+
+/* Keyframes for typing animation - defined once outside media queries */
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: var(--orange-yellow-crayola);
+  }
 }
 
 /*NAVBAR*/
@@ -1386,12 +1562,12 @@ textarea.form-input::-webkit-realizer {
   }
 
   .sidebar {
-    max-height: 180px;
+    max-height: 350px;
     margin-bottom: 30px;
   }
 
   .sidebar.active {
-    max-height: 584px;
+    max-height: 650px;
   }
 
   .sidebar-info {
@@ -1614,6 +1790,18 @@ textarea.form-input::-webkit-realizer {
   .form-btn ion-icon {
     font-size: 18px;
   }
+
+  .download-resume-btn {
+    bottom: 100px;
+    right: 30px;
+    font-size: var(--fs6);
+    padding: 12px 20px;
+    animation: glowing 2s infinite alternate;
+  }
+
+  .download-resume-btn ion-icon {
+    font-size: 22px;
+  }
 }
 
 @media (min-width: 768px) {
@@ -1687,6 +1875,11 @@ textarea.form-input::-webkit-realizer {
     width: max-content;
     margin-left: auto;
   }
+
+  .download-resume-btn {
+    bottom: 120px;
+    right: 40px;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -1757,6 +1950,11 @@ textarea.form-input::-webkit-realizer {
   .blog-banner-box {
     height: 230px;
   }
+
+  .download-resume-btn {
+    bottom: 40px;
+    right: 40px;
+  }
 }
 
 @media (min-width: 1250px) {
@@ -1809,11 +2007,12 @@ textarea.form-input::-webkit-realizer {
   .sidebar {
     position: sticky;
     top: 60px;
-    max-height: max-content;
-    height: 100%;
+    max-height: unset;
+    height: auto;
     margin-bottom: 0;
     padding-top: 60px;
     z-index: 1;
+    overflow: visible;
   }
 
   .sidebar-info {
@@ -1827,6 +2026,17 @@ textarea.form-input::-webkit-realizer {
   .info-content .name {
     white-space: nowrap;
     text-align: center;
+    position: relative;
+    overflow: visible;
+    border-right: none;
+    animation: textShine 4s ease-in-out infinite alternate,
+      letterSpacing 5s ease-in-out infinite alternate;
+    width: 100%;
+  }
+
+  .name-underline {
+    bottom: -5px;
+    height: 3px;
   }
 
   .info-content .title {
@@ -1840,10 +2050,20 @@ textarea.form-input::-webkit-realizer {
   .sidebar-info-more {
     opacity: 1;
     visibility: visible;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
   }
 
   .contacts-list {
     grid-template-columns: 1fr;
+    gap: 16px;
+    width: 100%;
+  }
+
+  .contact-info {
+    max-width: calc(100% - 46px);
+    width: calc(100% - 46px);
   }
 
   .contact-info :is(.contact-link) {
@@ -1857,6 +2077,11 @@ textarea.form-input::-webkit-realizer {
     font-weight: var(--fw300);
   }
 
+  .contacts-list,
+  .social-list {
+    width: 100%;
+  }
+
   .separator:last-of-type {
     margin: 15px 0;
     opacity: 0;
@@ -1868,5 +2093,55 @@ textarea.form-input::-webkit-realizer {
 
   .timeline-text {
     max-width: 700px;
+  }
+
+  .download-resume-btn {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    animation: glowing 2s infinite alternate;
+  }
+}
+
+/* Extra large screens */
+@media (min-width: 1600px) {
+  main {
+    max-width: 1400px;
+  }
+
+  .sidebar {
+    min-width: 25%;
+    width: 25%;
+    padding: 50px 30px;
+    height: auto;
+    min-height: 100%;
+  }
+
+  .contacts-list {
+    gap: 20px;
+  }
+
+  .contact-info {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .contact-info :is(.contact-link, time, address) {
+    --fs7: 16px;
+  }
+
+  .social-list {
+    gap: 20px;
+  }
+
+  .download-resume-btn {
+    bottom: 40px;
+    right: 40px;
+    padding: 15px 25px;
+    font-size: var(--fs5);
+  }
+
+  .download-resume-btn ion-icon {
+    font-size: 24px;
   }
 }
